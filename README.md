@@ -1,27 +1,26 @@
-# NgSevenseg
+# ng-sevenseg
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.3.
+Seven segment display built as an Angular module/component. SVG rendering shamelessly
+borrowed from http://brandonlwhite.github.io/sevenSeg.js/, with rendering adapted
+from jquery to Angular.
 
-## Development server
+NOTE: Working code with basic functionality, but has not yet been built as a library. This
+project will be built and uploaded to npm in the future.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Usage
 
-## Code scaffolding
+`<seven-seg digits="3" decimalPlaces="1" value="2.1"></seven-seg>`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* No attributes are required.
+* Without a value set, the display will render "off"; an empty string will be interpreted as "0"
+* `digits` indicates the total number of digits displayed, including decimal places.
+Ignoring this attribute will render the display as one digit.
+* `decimalPlaces` indicates the fixed number of decimal places. Behavior is undefined
+if this value is greater than the number of digits.
 
-## Build
+## TODO
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+* Pass through styling, such as display size, color, slant
+* On/Off functionality to turn off the display on command
+* Error/edge case handling, like values that exceed the display capacity,
+decimal places greater than display capacity, etc.
