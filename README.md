@@ -4,8 +4,7 @@ Seven segment display built as an Angular module/component. SVG rendering shamel
 borrowed from http://brandonlwhite.github.io/sevenSeg.js/, with rendering adapted
 from jquery to Angular.
 
-NOTE: Working code with basic functionality, but has not yet been built as a library. This
-project will be built and uploaded to npm in the future.
+MIT License
 
 ## Usage
 
@@ -21,6 +20,6 @@ if this value is greater than the number of digits.
 ## TODO
 
 * Pass through styling, such as display size, color, slant
-* On/Off functionality to turn off the display on command
+* On/Off functionality to turn off the display while retaining the value
 * Error/edge case handling, like values that exceed the display capacity,
 decimal places greater than display capacity, etc.
