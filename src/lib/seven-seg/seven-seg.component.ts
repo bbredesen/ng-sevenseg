@@ -26,7 +26,7 @@ export class SevenSegComponent implements AfterViewInit {
   }
   ngOnInit() {
     this.allDigits = [];
-    for (var i = 0; i<this.digits;i++) { this.allDigits.push(i); }
+    for (let i = 0; i<this.digits;i++) { this.allDigits.push(i); }
     this.handleCss();
   }
 
@@ -45,24 +45,27 @@ export class SevenSegComponent implements AfterViewInit {
       return;
     }
 
-    var value = this.value * Math.pow(10,this.decimalPlaces); // shift out decimals from the value
+    let value = Math.round(this.value * Math.pow(10,this.decimalPlaces)); // shift out decimals from the value
+    // Round the result to correct floating point bug with value="4.6" and decimalPlaces="2" rendering as 4.5_ (4.6*100===459.999999...)
 
-    var digits = this.digits; // declared to put in scope of forEach
-    var targetIdx = -1; // targetIdx is where the decimal place will be shown
-    if (this.decimalPlaces > 0)
-      targetIdx = this.digits - this.decimalPlaces-1;
+    let digits = this.digits; // declared to put in scope of forEach
+    // targetIdx is where the decimal place will be shown
+    let targetIdx = this.decimalPlaces > 0 ?
+      this.digits - this.decimalPlaces - 1 :
+      -1;
 
     let leadingZero = true;
     this.digitComponents.forEach(function(comp, idx) {
-      comp.showDecimal = (idx == targetIdx);
-      let curDigit = value / Math.pow(10, (digits-idx-1));
-      value = value % Math.pow(10, (digits-idx-1));
+      comp.showDecimal = (idx === targetIdx);
+      let divisor = Math.pow(10, (digits-idx-1));
+      let curDigit = value / divisor;
+      value = value % divisor;
 
       // console.log('CurDigit:', curDigit, 'next value:', value, 'idx', idx);
       if (Math.floor(curDigit) > 0) leadingZero = false;
 
       if (value == null || (leadingZero && idx < digits-1)) comp.digit = null;
-      else if (idx == digits-1) comp.digit = Math.round(curDigit);
+      else if (idx === digits-1) comp.digit = Math.round(curDigit);
       else comp.digit = Math.floor(curDigit);
 
     });
