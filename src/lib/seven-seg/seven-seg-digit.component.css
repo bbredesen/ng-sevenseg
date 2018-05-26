@@ -1,7 +1,6 @@
-.seg-on {
-  fill: #F00;
-}
-
-.seg-off {
-  fill: #200;
+svg {
+  height: 3em;
+  overflow: hidden;
+  stroke-width: 0;
+  background-color: Black;
 }

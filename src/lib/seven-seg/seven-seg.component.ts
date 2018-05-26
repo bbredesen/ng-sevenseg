@@ -1,6 +1,7 @@
-import { Component, Directive, Input, OnInit, AfterViewInit, ElementRef, ViewChildren, Renderer2, QueryList } from '@angular/core';
+import { Component, Directive, Input, OnInit, Injectable, AfterViewInit, ElementRef, ViewChildren, Renderer2, QueryList } from '@angular/core';
 import { SevenSegDigitComponent } from './seven-seg-digit.component';
 
+@Injectable()
 @Component({
   selector: 'seven-seg',
   templateUrl: './seven-seg.component.html',
@@ -10,6 +11,9 @@ export class SevenSegComponent implements AfterViewInit {
   @Input() private value : number;
   @Input() private digits : number;
   @Input() private decimalPlaces : number; // null = floating?
+
+  @Input() private styles : any = "{}";
+  cssObject : any = {};
 
   @ViewChildren('digit') digitComponents : QueryList<SevenSegDigitComponent>;
 
@@ -23,6 +27,11 @@ export class SevenSegComponent implements AfterViewInit {
   ngOnInit() {
     this.allDigits = [];
     for (var i = 0; i<this.digits;i++) { this.allDigits.push(i); }
+    this.handleCss();
+  }
+
+  private handleCss() {
+    this.cssObject = JSON.parse(this.styles);
   }
 
   ngAfterViewInit() {
@@ -30,8 +39,7 @@ export class SevenSegComponent implements AfterViewInit {
   }
 
   renderAll() {
-    console.log("render value: (" + this.value + ") null? " + (this.value==null));
-    // Special case: if value attribut is null or not given, blank the display
+    // Special case: if value attribute is null or not given, blank the display
     if (this.value == null) {
       this.digitComponents.forEach( comp => comp.digit = null );
       return;
