@@ -8,7 +8,8 @@ import { SevenSegDigitComponent } from './seven-seg-digit.component';
   styleUrls: ['./seven-seg.component.css']
 })
 export class SevenSegComponent implements AfterViewInit {
-  @Input() value : number;
+  // @Input('value')
+  _value : number;
   @Input() digits : number;
   @Input() decimalPlaces : number; // null = floating?
 
@@ -16,10 +17,11 @@ export class SevenSegComponent implements AfterViewInit {
 
   @ViewChildren('digit') digitComponents : QueryList<SevenSegDigitComponent>;
   allDigits : Array<number>;
+  private _viewInit : boolean = false;
 
   constructor() {
     // Set reasonable defaults
-    this.value = null;
+    this._value = null;
     this.digits = 1;
     this.decimalPlaces = 0;
   }
@@ -30,6 +32,7 @@ export class SevenSegComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this._viewInit = true;
     this.renderAll();
   }
 
@@ -43,20 +46,26 @@ export class SevenSegComponent implements AfterViewInit {
     return `translate(${w} 0)`;
   }
 
-  set (value : number) {
+  @Input()
+  set value(value : number) {
     let decimalFactor = Math.pow(10, this.decimalPlaces);
-    this.value = Math.round(value * decimalFactor) / decimalFactor;
+    this._value = Math.round(value * decimalFactor) / decimalFactor;
+    console.log(`set value: ${this._value}`);
     this.renderAll();
   }
 
   renderAll() {
+    if (!this._viewInit) return;
+
+    console.log('render all: ', this._value);
+
     // Special case: if value attribute is null or not given, blank the display
-    if (this.value == null) {
+    if (this._value == null) {
       this.digitComponents.forEach( comp => comp.digit = null );
       return;
     }
 
-    let value = Math.round(this.value * Math.pow(10,this.decimalPlaces)); // shift out decimals from the value
+    let value = Math.round(this._value * Math.pow(10,this.decimalPlaces)); // shift out decimals from the value
     // Round the result to correct floating point bug with value="4.6" and decimalPlaces="2" rendering as 4.5_ (4.6*100===459.999999...)
 
     let digits = this.digits; // declared to put in scope of forEach

@@ -40,21 +40,29 @@ export class SevenSegDigitComponent implements AfterViewInit {
   render() {
     let segs = segmentsForDigit[this._digitValue];
     this.segments.forEach((item, idx) => {
+      let elt = item.nativeElement;
       if ((segs >> idx) & 1) {
-        this.renderer.setAttribute(item.nativeElement, 'segmentOn', '');
-        this.renderer.removeAttribute(item.nativeElement, 'segmentOff');
+        this.renderer.setAttribute(elt, 'segmentOn', '');
+        this.renderer.removeAttribute(elt, 'segmentOff');
       } else {
-        this.renderer.setAttribute(item.nativeElement, 'segmentOff', '');
-        this.renderer.removeAttribute(item.nativeElement, 'segmentOn');
+        this.renderer.setAttribute(elt, 'segmentOff', '');
+        this.renderer.removeAttribute(elt, 'segmentOn');
       }
+      // force redraw in webkit
+      elt.style.display='none';
+      elt.style.display='';
     });
-    
+
+    let ptElt = this.point.nativeElement;
+
     if (this._showDecimal) {
-      this.renderer.setAttribute(this.point.nativeElement, 'segmentOn', '');
-      this.renderer.removeAttribute(this.point.nativeElement, 'segmentOff');
+      this.renderer.setAttribute(ptElt, 'segmentOn', '');
+      this.renderer.removeAttribute(ptElt, 'segmentOff');
     } else {
-      this.renderer.setAttribute(this.point.nativeElement, 'segmentOff', '');
-      this.renderer.removeAttribute(this.point.nativeElement, 'segmentOn');
+      this.renderer.setAttribute(ptElt, 'segmentOff', '');
+      this.renderer.removeAttribute(ptElt, 'segmentOn');
     }
+    ptElt.style.display='none';
+    ptElt.style.display='';
   }
 }

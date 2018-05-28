@@ -10,8 +10,10 @@
     <seven-seg digits="2"></seven-seg></div>
   <div>Empy value: <code>&lt;seven-seg digits="3" value=""&gt;</code>, interpreted as zero<br/>
     <seven-seg digits="3" value=""></seven-seg></div>
-  <div>Value binding: <code>&lt;seven-seg [value]="myValue" digits="3" decimalPlaces="1"&gt;</code>, should display "_ {{myValue}}"<br/>
-    <seven-seg [value]="myValue" digits="3" decimalPlaces="1"></seven-seg></div>
+  <div>Value binding with update: <code>&lt;seven-seg [value]="myValue" digits="3"&gt;</code><br/>
+    <seven-seg [(value)]="myValue" digits="3"></seven-seg>
+    <button (click)="incrementValue()">Increment</button>
+  </div>
   <!-- <div>Two decimal places with rounding: <code>&lt;seven-seg value="7.658" digits="3" decimalPlaces="2"&gt;</code>, should display "7.66"<br/>
     <seven-seg value="7.658" digits="3" decimalPlaces="2"></seven-seg></div>
   <div>Leading null, trailing zero: <code>&lt;seven-seg value="4.6" digits="4" decimalPlaces="2"&gt;</code>, should display "_ 304.60"<br/>

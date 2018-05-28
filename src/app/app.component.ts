@@ -8,5 +8,10 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
 
-  myValue = 4.6;
+  myValue : number = 4;
+
+  incrementValue() {
+    console.log('app-root: incrementValue');
+    this.myValue = this.myValue + 1;
+  }
 }

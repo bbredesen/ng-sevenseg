@@ -1,4 +1,4 @@
-# ng-sevenseg v0.1.0
+# ng-sevenseg v0.1.1
 
 Seven segment display built as an Angular module and component. SVG markup shamelessly borrowed from http://brandonlwhite.github.io/sevenSeg.js/, with rendering adapted from jQuery to Angular.
 
@@ -83,6 +83,8 @@ allow explicit setting of each color, so one could use (e.g.) black digits on a 
 [-] Digit slant setting/specification (user can apply transform: skewX in CSS)
 
 ## History
+
+0.1.1 - Bug fix where webkit was not redrawing SVG on attribute change
 
 0.1.0 - Pass-through of CSS classes, lots of code cleanup
 
