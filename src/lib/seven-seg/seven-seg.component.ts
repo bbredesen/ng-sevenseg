@@ -50,14 +50,14 @@ export class SevenSegComponent implements AfterViewInit {
   set value(value : number) {
     let decimalFactor = Math.pow(10, this.decimalPlaces);
     this._value = Math.round(value * decimalFactor) / decimalFactor;
-    console.log(`set value: ${this._value}`);
+    // console.log(`set value: ${this._value}`);
     this.renderAll();
   }
 
   renderAll() {
     if (!this._viewInit) return;
 
-    console.log('render all: ', this._value);
+    // console.log('render all: ', this._value);
 
     // Special case: if value attribute is null or not given, blank the display
     if (this._value == null) {
