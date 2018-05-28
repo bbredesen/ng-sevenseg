@@ -1,2 +1,18 @@
+<svg style="display: none;">
+  <defs>
+    <polyline id="h-seg" points="11 0, 37 0, 42 5, 37 10, 11 10, 6 5" />
+    <polyline id="v-seg" points="0 11, 5 6, 10 11, 10 34, 5 39, 0 39" />
+    <circle id="dot" cx="52" cy="75" r="5" />
+    <use id="seg0" href="#h-seg" transform="translate(0 0)"/>
+    <use id="seg1" href="#v-seg" transform="translate(48) scale(-1 1)" />
+    <use id="seg2" href="#v-seg" transform="translate(48 80) scale(-1 -1)" />
+    <use id="seg3" href="#h-seg" transform="translate(0 70)"/>
+    <use id="seg4" href="#v-seg" transform="translate(0 80) scale(1 -1)" />
+    <use id="seg5" href="#v-seg" transform="translate(0 0)" />
+    <use id="seg6" href="#h-seg" transform="translate(0 35)"/>
+  </defs>
+</svg>
 
-<seven-seg-digit #digit *ngFor="let idx of allDigits"></seven-seg-digit>
+<svg [attr.viewBox]="viewBox" focusable="false" display>
+  <g [attr.transform]="groupTransform(i)" *ngFor="let i of allDigits" idx="{{i}}" #digit sevenSegDigit></g>
+</svg>

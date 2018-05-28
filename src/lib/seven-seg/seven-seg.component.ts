@@ -8,33 +8,44 @@ import { SevenSegDigitComponent } from './seven-seg-digit.component';
   styleUrls: ['./seven-seg.component.css']
 })
 export class SevenSegComponent implements AfterViewInit {
-  @Input() private value : number;
-  @Input() private digits : number;
-  @Input() private decimalPlaces : number; // null = floating?
+  @Input() value : number;
+  @Input() digits : number;
+  @Input() decimalPlaces : number; // null = floating?
 
-  @Input() private styles : any = "{}";
-  cssObject : any = {};
+  @Input() class : string = '';
 
   @ViewChildren('digit') digitComponents : QueryList<SevenSegDigitComponent>;
-
   allDigits : Array<number>;
 
   constructor() {
+    // Set reasonable defaults
     this.value = null;
     this.digits = 1;
     this.decimalPlaces = 0;
   }
+
   ngOnInit() {
     this.allDigits = [];
     for (let i = 0; i<this.digits;i++) { this.allDigits.push(i); }
-    this.handleCss();
-  }
-
-  private handleCss() {
-    this.cssObject = JSON.parse(this.styles);
   }
 
   ngAfterViewInit() {
+    this.renderAll();
+  }
+
+  get viewBox() : string {
+    let w = this.digits * 57;
+    return `0 0 ${w} 80`;
+  }
+
+  groupTransform(i : number) : string {
+    let w = i * 57;
+    return `translate(${w} 0)`;
+  }
+
+  set (value : number) {
+    let decimalFactor = Math.pow(10, this.decimalPlaces);
+    this.value = Math.round(value * decimalFactor) / decimalFactor;
     this.renderAll();
   }
 
@@ -67,15 +78,7 @@ export class SevenSegComponent implements AfterViewInit {
       if (value == null || (leadingZero && idx < digits-1)) comp.digit = null;
       else if (idx === digits-1) comp.digit = Math.round(curDigit);
       else comp.digit = Math.floor(curDigit);
-
     });
   }
-
-  set (value : number) {
-    let decimalFactor = Math.pow(10, this.decimalPlaces);
-    this.value = Math.round(value * decimalFactor) / decimalFactor;
-    this.renderAll();
-  }
-  get (value) { return this.value; }
 
 }

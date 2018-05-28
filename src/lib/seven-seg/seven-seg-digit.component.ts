@@ -1,31 +1,23 @@
-import { Component, OnInit, Input, Inject, AfterViewInit, QueryList, Renderer2, ElementRef, ViewChild, ViewChildren } from '@angular/core';
+import { Component, Input, Inject, HostBinding, AfterViewInit, QueryList, Renderer2, ElementRef, ContentChildren, ViewChild, ViewChildren } from '@angular/core';
 import { SevenSegComponent } from './seven-seg.component';
 
-var segmentsForDigit = [0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F];
-
-class SegParams {
-  x : number;
-  y : number;
-  transform : string;
-  ref : string;
-}
+const segmentsForDigit = [0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F];
 
 @Component({
-  selector: 'seven-seg-digit',
+  selector: '[sevenSegDigit]',
   templateUrl: './seven-seg-digit.component.html',
   styleUrls: ['./seven-seg-digit.component.css']
 })
-export class SevenSegDigitComponent implements OnInit {
+export class SevenSegDigitComponent implements AfterViewInit {
   @ViewChildren('seg', { read: ElementRef }) segments : QueryList<ElementRef>;
   @ViewChild('dot') point : any;
+
+  class : string;
 
   private _digitValue : number;
   private _showDecimal : boolean = false;
 
-  private cssObject : any;
-
-  private fillOn : string = '#F00';
-  private fillOff : string = '#300';
+  allSegments : Array<number>;
 
   get digit():number { return this._digitValue; }
   set digit(val : number) { this._digitValue = val; this.render(); }
@@ -33,25 +25,36 @@ export class SevenSegDigitComponent implements OnInit {
   set showDecimal(show : boolean) { this._showDecimal = show; }
   get showDecimal() : boolean { return this._showDecimal; }
 
-  constructor(@Inject(SevenSegComponent) private parent: SevenSegComponent,
-    private renderer: Renderer2) {
+  @Input() idx : number;
+
+  constructor(private renderer: Renderer2)
+  {
+    this.allSegments = [];
+    for (let i = 0; i<7;i++) { this.allSegments.push(i); }
   }
 
-  ngOnInit() {
-    this.cssObject = this.parent.cssObject;
-    if (this.cssObject.fillOn) { this.fillOn = this.cssObject.fillOn; }
-    if (this.cssObject.fillOff) { this.fillOff = this.cssObject.fillOff; }
+  ngAfterViewInit() {
+    this.render();
   }
 
   render() {
-    var segs = segmentsForDigit[this._digitValue];
+    let segs = segmentsForDigit[this._digitValue];
     this.segments.forEach((item, idx) => {
       if ((segs >> idx) & 1) {
-        this.renderer.setStyle(item.nativeElement, 'fill', this.fillOn);
+        this.renderer.setAttribute(item.nativeElement, 'segmentOn', '');
+        this.renderer.removeAttribute(item.nativeElement, 'segmentOff');
       } else {
-        this.renderer.setStyle(item.nativeElement, 'fill', this.fillOff);
+        this.renderer.setAttribute(item.nativeElement, 'segmentOff', '');
+        this.renderer.removeAttribute(item.nativeElement, 'segmentOn');
       }
     });
-    if (this._showDecimal) { this.renderer.setStyle(this.point.nativeElement, 'fill', this.fillOn); }
+    
+    if (this._showDecimal) {
+      this.renderer.setAttribute(this.point.nativeElement, 'segmentOn', '');
+      this.renderer.removeAttribute(this.point.nativeElement, 'segmentOff');
+    } else {
+      this.renderer.setAttribute(this.point.nativeElement, 'segmentOff', '');
+      this.renderer.removeAttribute(this.point.nativeElement, 'segmentOn');
+    }
   }
 }

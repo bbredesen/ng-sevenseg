@@ -1,21 +1,2 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  viewBox="0 0 57 80" focusable="false"
-  [style.height]="cssObject.height"
-  [style.width]="cssObject.width"
-  [style.backgroundColor]="cssObject.backgroundColor"
-  >
-  <defs>
-    <polyline id="h-seg" points="11 0, 37 0, 42 5, 37 10, 11 10, 6 5" />
-    <polyline id="v-seg" points="0 11, 5 6, 10 11, 10 34, 5 39, 0 39" />
-  </defs>
-  <g>
-    <use xlink:href="#h-seg" x="0" y="0" #seg />
-    <use xlink:href="#v-seg" x="-48" y="0" transform="scale(-1,1)" #seg />
-    <use xlink:href="#v-seg" x="-48" y="-80" transform="scale(-1,-1)" #seg/>
-    <use xlink:href="#h-seg" x="0" y="70" #seg/>
-    <use xlink:href="#v-seg" x="0" y="-80" transform="scale(1,-1)" #seg/>
-    <use xlink:href="#v-seg" x="0" y="0" #seg/>
-    <use xlink:href="#h-seg" x="0" y="35" #seg/>
-  </g>
-  <circle cx="52" cy="75" r="5" #dot/>
-</svg>
+<svg:use *ngFor="let j of allSegments" [attr.href]="'#seg'+j" #seg />
+<svg:use href="#dot" #dot />

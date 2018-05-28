@@ -1,6 +1,6 @@
-svg {
-  height: 3em;
-  overflow: hidden;
-  stroke-width: 0;
-  background-color: Black;
+[segmentOn] {
+  opacity: 1;
+}
+[segmentOff] {
+  opacity: 0.2;
 }
